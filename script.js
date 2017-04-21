@@ -16,7 +16,19 @@ app.factory('recognizeService', function($http) {
     }
 });
 
-app.controller('mainCtrl', function($scope, recognizeService) {
+app.factory('getListIdol', function($http) {
+    return {
+        listIdols: function() {
+            var url = 'https://wt-318355bf902736e11e4fc89258873695-0.run.webtask.io/idol-recognize/getListIdol';
+            return $http({
+                method: 'GET',
+                url
+            });
+        }
+    }
+});
+
+app.controller('mainCtrl', function($scope, recognizeService, getListIdol) {
     $scope.isLoading = false;
 
     $scope.$watch('imageLink', function(oldValue, newValue) {
@@ -50,22 +62,30 @@ app.controller('mainCtrl', function($scope, recognizeService) {
         });
     }
 
+    getListIdol.listIdols().then(result => {
+        $scope.idols = result;
+//             .data.map(rs => {
+//             return {
+//                 rs.userData.urlImg
+//             }
+//         });
+    });
     // Danh sách ảnh để test
     $scope.testImages = ["http://tse3.mm.bing.net/th?id=OIP.M62d737028ee51f22482fab76bdfe112do1&pid=15.1", "http://tse4.mm.bing.net/th?id=OIP.M93d1646690a0f345e561a80523529bb2o1&pid=15.1", "http://media.ngoisao.vn/resize_580/news/2014/11/30/miu-le-20.jpg", "http://static.giaoducthoidai.vn/uploaded/hainv/2016_01_27/images16422691452168028hotgirlhaiphongxinhnhumong191657_uzve.jpg?width=500"];
 
     // Danh sách idol
-    $scope.idols = [
-        "Ngọc Trinh",
-        "Bà tưng",
-        "Hường Hana",
-        "Hoàng Thùy Linh",
-        "Elly Trần",
-        "Thuỷ Top",
-        "Tâm Tít",
-        "Midu",
-        "Miu Lê",
-        "Chi Pu",
-        "Khả Ngân",
-        "Angela Phương Trinh"
-    ];
+//     $scope.idols = [
+//         "Ngọc Trinh",
+//         "Bà tưng",
+//         "Hường Hana",
+//         "Hoàng Thùy Linh",
+//         "Elly Trần",
+//         "Thuỷ Top",
+//         "Tâm Tít",
+//         "Midu",
+//         "Miu Lê",
+//         "Chi Pu",
+//         "Khả Ngân",
+//         "Angela Phương Trinh"
+//     ];
 });
